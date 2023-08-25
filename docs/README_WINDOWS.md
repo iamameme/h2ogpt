@@ -1,6 +1,6 @@
 # Windows 10/11
 
-If using GPU on Windows 10/11 Pro 64-bit, we recommend using [Windows installers](../README.md#windows-1011-64-bit-with-full-document-qa-capability).
+If using GPU on Windows 10 Pro 64-bit, we recommend [downloading and installing Windows installer](https://h2o-release.s3.amazonaws.com/h2ogpt/h2oGPT_0.0.1.exe)
 
 For newer builds of windows versions of 10/11.
 
@@ -41,10 +41,6 @@ For newer builds of windows versions of 10/11.
     conda install cudatoolkit=11.7 -c conda-forge -y
     set CUDA_HOME=$CONDA_PREFIX
     ```
-* Install Git:
-   ```bash
-    conda install -c conda-forge git
-    ```
 * Install h2oGPT:
    ```bash
     git clone https://github.com/h2oai/h2ogpt.git
@@ -77,10 +73,7 @@ For newer builds of windows versions of 10/11.
     pip install -r reqs_optional/requirements_optional_langchain.urls.txt
     # Optional: for supporting unstructured package
     python -m nltk.downloader all
-    # Optional but required for PlayWright
-    playwright install --with-deps
-    # Note: for Selenium, we match versions of playwright so above installer will add chrome version needed
-    # *Set* environment variable KEEP_PLAYWRIGHT='1' if want to use playwright, which we found to hang too often and is disabled unless set
+   ```
 * GPU Optional: For optional AutoGPTQ support:
    ```bash
     pip uninstall -y auto-gptq
@@ -116,6 +109,7 @@ For newer builds of windows versions of 10/11.
   * Note that once `llama-cpp-python` is compiled to support CUDA, it no longer works for CPU mode, so one would have to reinstall it without the above options to recovers CPU mode or have a separate h2oGPT env for CPU mode.
 * For supporting Word and Excel documents, if you don't have Word/Excel already, then download and install libreoffice: https://www.libreoffice.org/download/download-libreoffice/ .
 * To support OCR, download and install [tesseract](https://github.com/UB-Mannheim/tesseract/wiki), see also: [Tesseract Documentation](https://tesseract-ocr.github.io/tessdoc/Installation.html).  Please add the installation directories to your PATH.
+
 ---
 
 ## Run
@@ -123,7 +117,7 @@ For newer builds of windows versions of 10/11.
 
   * Click [Download LLaMa2 Model](https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML/resolve/main/llama-2-7b-chat.ggmlv3.q8_0.bin) and place file in h2oGPT repo directory.  Any other TheBloke GGML v3 model can be used by changing value of `--model_path_llama` to path previously downloaded or URL.
        ```bash
-       python generate.py --base_model='llama' --prompt_type=llama2 --score_model=None --langchain_mode='UserData' --user_path=user_path
+       python generate.py --base_model='llama' --prompt_type=llama2 --score_model=None  --hf_embedding_model=sentence-transformers/all-MiniLM-L6-v2 --langchain_mode='UserData' --model_path_llama="C:\Users\abc\Desktop\h2ogpt-main\llama-2-7b-chat.ggmlv3.q2_K.bin" --user_path="./testsources-clean/" --share=True --visible_doc_view_tab=False --visible_expert_tab=False --visible_models_tab=False --dark=True 
        ```
     for an absolute windows path, change to `--user_path=C:\Users\YourUsername\h2ogpt` or something similar for some user `YourUsername`.
       If llama-cpp-python was compiled with CUDA support, you should see in the output:
@@ -213,4 +207,3 @@ See [CPU](README_CPU.md) and [GPU](README_GPU.md) for some other general aspects
   python generate.py ...
   ```
   for some options ...
-* For easier handling of command line operations, consider using bash in windows with [coreutils](https://github.com/git-for-windows/git/releases/download/v2.41.0.windows.3/Git-2.41.0.3-64-bit.exe).

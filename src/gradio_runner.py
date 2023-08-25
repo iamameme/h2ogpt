@@ -558,7 +558,7 @@ def go_gradio(**kwargs):
         with normal_block:
             side_bar = gr.Column(elem_id="col_container", scale=1, min_width=100, visible=kwargs['visible_side_bar'])
             with side_bar:
-                with gr.Accordion("Chats", open=False, visible=True):
+                with gr.Accordion("Chats", open=False, visible=False):
                     radio_chats = gr.Radio(value=None, label="Saved Chats", show_label=False,
                                            visible=True, interactive=True,
                                            type='value')

@@ -74,7 +74,7 @@ def main(
         use_system_prompt: bool = False,
 
         # llama and gpt4all settings
-        llamacpp_dict: typing.Dict = dict(n_gpu_layers=100, use_mlock=True, n_batch=1024, n_gqa=0),
+        llamacpp_dict: typing.Dict = dict(n_gpu_layers=100, use_mlock=True, n_batch=512, n_gqa=0),
         model_path_llama: str = 'https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML/resolve/main/llama-2-7b-chat.ggmlv3.q8_0.bin',
         # 'llama-2-7b-chat.ggmlv3.q8_0.bin',
         model_name_gptj: str = 'ggml-gpt4all-j-v1.3-groovy.bin',

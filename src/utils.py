@@ -20,6 +20,7 @@ from concurrent.futures import ProcessPoolExecutor
 from datetime import datetime
 from typing import Tuple, Callable, Dict
 
+import csv
 import filelock
 import fire
 import numpy as np
@@ -622,6 +623,19 @@ def get_accordion(x, font_size=2, head_acc=50):
     return f"""<details><summary><font size="{font_size}">{title}</font></summary><font size="{font_size}">{content}</font></details>"""
 
 
+def get_source_from_confluence_id(id):
+    with open('idToUrl.csv', mode ='r', encoding="utf8")as file:
+        # reading the CSV file
+        csvFile = csv.reader(file)
+        # displaying the contents of the CSV file
+        print(id)
+        for row in csvFile:
+            rRow = row[0].split(' ')
+            idrow = rRow[0]
+            if idrow == id:
+                return [rRow[1],rRow[2]]
+    return ['unknown', 'unknownname']
+
 def get_url(x, from_str=False, short_name=False, font_size=2):
     if not from_str:
         source = x.metadata['source']
@@ -635,8 +649,17 @@ def get_url(x, from_str=False, short_name=False, font_size=2):
         return """<font size="%s"><a href="%s" target="_blank"  rel="noopener noreferrer">%s</a></font>""" % (
             font_size, source, source_name)
     else:
-        return """<font size="%s"><a href="file/%s" target="_blank"  rel="noopener noreferrer">%s</a></font>""" % (
-            font_size, source, source_name)
+        # SOURCE_LINE: Score | Link : HERE
+        for x in range(len(source)):
+            print(source[x])
+        alid = source.split("\\")
+        id = alid[len(source.split("\\")) - 1].replace('.txt', '')
+        data = get_source_from_confluence_id(id)
+        return """<font size="%s"><a href="%s" target="_blank"  rel="noopener noreferrer">%s</a></font>""" % (
+            font_size, data[0], data[1]  + ": " + data[0])
+        #return """<font size="%s"><a href="file/%s" target="_blank"  rel="noopener noreferrer">%s</a></font>""" % (
+         #   font_size, data, source_name)
+
 
 
 def get_short_name(name, maxl=50):
